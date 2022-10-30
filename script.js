@@ -44,33 +44,44 @@ document.querySelector('.buttons').addEventListener('click', (event) =>  {
 
     if (digit.includes(key)) {
         if (b === '' && sign === ''){
-            a += key;
-            display.textContent = a;
+            if (a.includes('.') && key === '.'){
+                a += '';
+                display.textContent = a; 
+            }
+            else if (a.length === 0 && key === '.'){
+                a += '0.';
+                display.textContent = a; 
+            }
+            else{
+                a += key;
+                display.textContent = a; 
+            }         
         }
         else if (a!=='' && b!=='' && finish){
             b = key;
             finish = false;
             display.textContent = b;
         }
-        else {
-            b += key;
-            display.textContent = b;
-        }
-        if (action.includes(key)) {
-            sign = key;
-            display.textContent = sign;
-            return;
-        }  
-    }
-    if (key.includes(dot)){
-        if (a.includes('.')) {
-            a +='';
-            display.textContent = a;
+        else{
+            if (b.includes('.') && key === '.'){
+                b += '';
+                display.textContent = b; 
+            }
+            else if (b.length === 0 && key === '.'){
+                b += '0.';
+                display.textContent = b; 
+            }
+            else{
+                b += key;
+                display.textContent = b;
+            }
+                 
         } 
-        else {
-            a += key;
-            display.textContent = a;
-        };
+    }
+    if (action.includes(key)) {
+        sign = key;
+        display.textContent = sign;
+        return;
     }
     
     if (key === '=') {
