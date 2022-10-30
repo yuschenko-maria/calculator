@@ -1,6 +1,9 @@
 let a = '',
 b = '',
 sign = '',
+percent  = document.getElementsByClassName('.percent'),
+pm = document.getElementsByClassName('.plus-minus'),
+dot = document.getElementsByClassName('.dot'),
 finish = false;
 const display = document.querySelector('.calc-display p');
 let options;
@@ -15,8 +18,24 @@ function clearAll () {
     finish = false;
     display.textContent = 0;
 }
-
-document.querySelector('.buttons').onclick = (event) => {
+function calculate (){
+    if (b === '') b = a;
+        switch (sign){
+            case '+':
+                a = (+a) + (+b);
+                break;
+            case '-':
+                a = a - b;
+                break;
+            case 'x':
+                a = a * b;
+                break;
+            case '/':
+                a = a / b;
+                break;
+        }
+}
+document.querySelector('.buttons').addEventListener('click', (event) =>  {
     if(!event.target.classList.contains('btn')) return;
     if(event.target.classList.contains('ac')) clearAll();
     display.textContent = '';
@@ -37,29 +56,26 @@ document.querySelector('.buttons').onclick = (event) => {
             b += key;
             display.textContent = b;
         }
+        if (action.includes(key)) {
+            sign = key;
+            display.textContent = sign;
+            return;
+        }  
     }
-    if (action.includes(key)) {
-        sign = key;
-        display.textContent = sign;
-        return;
+    if (key.includes(dot)){
+        if (a.includes('.')) {
+            a +='';
+            display.textContent = a;
+        } 
+        else {
+            a += key;
+            display.textContent = a;
+        };
     }
+    
     if (key === '=') {
-        if (b === '') b = a;
-        switch (sign){
-            case '+':
-                a = (+a) + (+b);
-                break;
-            case '-':
-                a = a - b;
-                break;
-            case 'x':
-                a = a * b;
-                break;
-            case '/':
-                a = a / b;
-                break;
-        }
+        calculate ();
         finish = true;
-        display.textContent = a;
+        display.textContent= a;
     }
-}
+})
